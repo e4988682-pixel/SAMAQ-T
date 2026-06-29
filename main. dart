@@ -8,16 +8,89 @@ class SamaqApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false, 
-      home: Scaffold(
-        backgroundColor: Colors.black, // الشاشة السوداء
-        body: Center( 
+      debugShowCheckedModeBanner: false,
+      home: SplashPage(), // يبدأ التطبيق من شاشة البداية
+    );
+  }
+}
+
+// 1. شاشة البداية (تنتقل عند الضغط في أي مكان)
+class SplashPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        // هذا الأمر ينقل المستخدم إلى الصفحة الرئيسية
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => HomePage()),
+        );
+      },
+      child: Scaffold(
+        backgroundColor: Colors.black,
+        body: Center(
           child: Text(
             "أهلاً بك في سمقَ !",
             style: TextStyle(
-              color: Colors.blue, // الخط الأزرق
-              fontSize: 32, 
-              fontWeight: FontWeight.bold, 
+              color: Colors.blue,
+              fontSize: 32,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// 2. الواجهة الرئيسية المقسمة إلى 3 خانات
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black, // أبقينا الخلفية سوداء فخمة
+      appBar: AppBar(
+        title: Text("سمقَ - الرئيسية", style: TextStyle(color: Colors.blue)),
+        backgroundColor: Colors.grey[900],
+        elevation: 0,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // الخانة الأولى: آخر الفصول
+            buildCategoryCard("آخر الفصول", Colors.blueAccent),
+            SizedBox(height: 16), // مسافة بين الخانات
+            
+            // الخانة الثانية: الأكثر شعبية
+            buildCategoryCard("الأكثر شعبية", Colors.indigoAccent),
+            SizedBox(height: 16),
+            
+            // الخانة الثالثة: التصنيفات
+            buildCategoryCard("التصنيفات", Colors.cyan),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // دالة مساعدة لتصميم شكل الخانات البرمجية بشكل مرتب ونظيف
+  Widget buildCategoryCard(String title, Color color) {
+    return Expanded(
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.grey[900], // لون خلفية الخانة دافئ ومريح للعين
+          borderRadius: BorderRadius.circular(12), // حواف دائرية فخمة
+          border: Border.all(color: color, width: 1.5), // إطار ملون للخانة
+        ),
+        child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
